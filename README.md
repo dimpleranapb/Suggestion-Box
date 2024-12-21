@@ -1,7 +1,37 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# Anonymous Feedback App
+
+This is an **Anonymous Feedback App** where users can send anonymous feedback and view AI-generated suggestions powered by the OpenAI API. The project is built using modern technologies like **Next.js**, **ShadCN**, **NextAuth**, **Resend**, **Tailwind CSS**, and **TypeScript**.
+
+---
+
+## Features
+
+- 🚀 Send anonymous feedback effortlessly.  
+- 🤖 AI-generated suggestions for the feedback using OpenAI API.  
+- 🎨 Modern UI with **ShadCN** for enhanced design and accessibility.  
+- 🔒 Secure authentication with **NextAuth**.  
+- 📱 Responsive design with **Tailwind CSS**.  
+- 📧 Server-side email notifications using **Resend**.  
+
+---
+
+## Technologies Used
+
+- **Next.js**: Server-side rendering and routing.  
+- **ShadCN**: Pre-styled components for better UI design.  
+- **NextAuth**: Authentication library for secure user login.  
+- **Resend**: Email sending service for notifications.  
+- **Tailwind CSS**: Utility-first CSS framework for responsive design.  
+- **TypeScript**: Static typing for better code quality and maintainability.  
 
 ## Getting Started
+### Prerequisites
 
+Ensure you have the following installed on your machine:
+- Node.js (v14 or higher)
+- npm, yarn, pnpm, or bun (choose one package manager)
+- OpenAI API key for AI suggestions
+- Environment variables for NextAuth and Resend (check `.env.example`)
 First, run the development server:
 
 ```bash
