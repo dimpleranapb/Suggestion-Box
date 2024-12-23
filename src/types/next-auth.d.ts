@@ -1,5 +1,6 @@
 import 'next-auth';
 import 'next-auth/jwt';
+import { DefaultSession } from "next-auth";
 
 // Extend the 'next-auth' module
 declare module 'next-auth' {
