@@ -5,7 +5,7 @@ import * as z from "zod";
 import Link from "next/link";
 import { useEffect, useState } from "react";
 import { useToast } from "@/hooks/use-toast";
-import { useDebounceValue } from "usehooks-ts";
+import { useDebounceCallback } from "usehooks-ts";
 import { useRouter } from "next/navigation";
 import { signUpSchema } from "@/schemas/signUpSchema";
 import axios, { AxiosError } from "axios";
@@ -27,7 +27,7 @@ export const page = () => {
   const [usernameMessage, setUsernameMessage] = useState("");
   const [isCheckingUsername, setIsCheckingUsername] = useState(false);
   const [isSubmitting, setIsSubmitting] = useState(false);
-  const debounceUsername = useDebounceValue(username, 300);
+  const debounced = useDebounceCallback(setUsername, 300);
   const { toast } = useToast();
   const router = useRouter();
 
@@ -43,12 +43,12 @@ export const page = () => {
 
   useEffect(() => {
     const checkUsernameUnique = async () => {
-      if (debounceUsername) {
+      if (username) {
         setIsCheckingUsername(true);
         setUsernameMessage("");
         try {
           const response = await axios.get(
-            `/api/check-username-unique?username=${debounceUsername}`
+            `/api/check-username-unique?username=${username}`
           );
           setUsernameMessage(response.data.message);
         } catch (error) {
@@ -61,7 +61,7 @@ export const page = () => {
         }
       }
     };
-  }, [debounceUsername]);
+  }, [username]);
 
   const onSubmit = async (data: z.infer<typeof signUpSchema>) => {
     setIsSubmitting(true);
@@ -109,10 +109,12 @@ export const page = () => {
                       {...field}
                       onChange={(e) => {
                         field.onChange(e);
-                        setUsername(e.target.value);
+                        debounced(e.target.value);
                       }}
                     />
                   </FormControl>
+                  {isCheckingUsername && <Loader2 className="animate-spin" />}
+
                   <FormMessage />
                 </FormItem>
               )}
