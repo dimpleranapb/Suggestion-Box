@@ -13,7 +13,6 @@ import { ApiResponse } from "@/types/ApiResponse";
 import {
   Form,
   FormControl,
-  FormDescription,
   FormField,
   FormItem,
   FormLabel,
@@ -22,7 +21,7 @@ import {
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import { Loader2 } from "lucide-react";
-export const page = () => {
+export default function page() {
   const [username, setUsername] = useState("");
   const [usernameMessage, setUsernameMessage] = useState("");
   const [isCheckingUsername, setIsCheckingUsername] = useState(false);
@@ -50,6 +49,7 @@ export const page = () => {
           const response = await axios.get(
             `/api/check-username-unique?username=${username}`
           );
+          console.log(response);
           setUsernameMessage(response.data.message);
         } catch (error) {
           const axiosError = error as AxiosError<ApiResponse>;
@@ -61,6 +61,7 @@ export const page = () => {
         }
       }
     };
+    checkUsernameUnique();
   }, [username]);
 
   const onSubmit = async (data: z.infer<typeof signUpSchema>) => {
@@ -74,7 +75,7 @@ export const page = () => {
 
       router.replace(`/verify/${username}`);
     } catch (error) {
-      console.error("Error in sign of user", error);
+      console.error("Error in sign up of user", error);
       const axiosError = error as AxiosError<ApiResponse>;
       let errorMessage = axiosError.response?.data.message;
       toast({
@@ -120,7 +121,9 @@ export const page = () => {
                         ? "text-green-500"
                         : "text-red-500"
                     }`}
-                  ></p>
+                  >
+                    {usernameMessage}
+                  </p>
                   <FormMessage />
                 </FormItem>
               )}
@@ -173,4 +176,4 @@ export const page = () => {
       </div>
     </div>
   );
-};
+}

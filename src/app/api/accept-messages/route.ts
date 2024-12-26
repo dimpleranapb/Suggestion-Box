@@ -1,23 +1,22 @@
 import {getServerSession} from "next-auth";
+import { Session } from "next-auth";
 import { authOptions } from "../auth/[...nextauth]/options"
 import dbConnect from "@/lib/dbConnect"
 import UserModel from "@/model/User"
 import { User } from "next-auth"
-import { NextResponse } from "next/server";
 
 
 export async function POST(request: Request) {
     await dbConnect()
-    const session = await getServerSession(authOptions)
-    const user = session.user
-    if (!session || !session.user) {
+    const session: Session | null = await getServerSession(authOptions)
+        if (!session || !session.user) {
         return Response.json({
             success: false,
             message: "Not Authenticated"
         },
             { status: 401 })
     }
-    const userId = user._id
+    const userId = session.user._id
     const { acceptMessages } = await request.json()
 
 
@@ -51,8 +50,7 @@ export async function POST(request: Request) {
 export async function GET(request: Request) {
 
     await dbConnect()
-    const session = await getServerSession(authOptions)
-    const user = session?.user
+    const session: Session | null = await getServerSession(authOptions)
     if (!session || !session.user) {
         return Response.json({
             success: false,
@@ -60,7 +58,7 @@ export async function GET(request: Request) {
         },
             { status: 401 })
     }
-    const userId = user._id
+    const userId = session.user._id
     try {
         const foundUser = await UserModel.findById(userId)
 
