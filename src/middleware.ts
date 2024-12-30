@@ -18,7 +18,7 @@ export async function middleware(request: NextRequest) {
 
     // If the user is not authenticated and tries to access protected routes, redirect to /home
     if (!token && pathname.startsWith('/dashboard')) {
-        return NextResponse.redirect(new URL('/home', request.url));
+        return NextResponse.redirect(new URL('/', request.url));
     }
 
     // Allow other requests to proceed
