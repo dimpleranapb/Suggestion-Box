@@ -1,0 +1,23 @@
+[
+    {
+      "title": "Employee Engagement Improvement",
+      "content": "It would be great to have more team-building activities throughout the year to increase employee engagement and morale.",
+      "received": false
+    },
+    {
+      "title": "Work-from-home Policy Suggestion",
+      "content": "Could the company consider offering flexible work-from-home days? It would help employees maintain a better work-life balance.",
+      "received": true
+    },
+    {
+      "title": "Software Tools Update",
+      "content": "The current project management tool we use is somewhat outdated. An upgrade or change to something more intuitive might increase productivity.",
+      "received": false
+    },
+    {
+      "title": "Feedback on HR Processes",
+      "content": "It would be helpful to have a clearer and more streamlined process for providing feedback to HR on company-wide policies.",
+      "received": true
+    }
+  ]
+  
