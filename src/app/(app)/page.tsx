@@ -30,7 +30,9 @@ export default function page() {
                 <Card>
                   <CardHeader>{message.title}</CardHeader>
                   <CardContent className="flex aspect-square items-center justify-center p-6">
-                    <span className="text-4xl font-semibold">{index + 1}</span>
+                    <span className="text-lg font-semibold">
+                      {message.content}
+                    </span>
                   </CardContent>
                 </Card>
               </div>
