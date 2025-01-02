@@ -22,7 +22,6 @@ function UserDashboard() {
   const [isSwitchLoading, setIsSwitchLoading] = useState(false);
   const { toast } = useToast();
   const { data: session } = useSession();
-  const [isClient, setIsClient] = useState(false);
 
   const form = useForm({
     resolver: zodResolver(acceptMessageSchema),
