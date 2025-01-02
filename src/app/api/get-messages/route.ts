@@ -9,7 +9,7 @@ import mongoose from "mongoose"
 
 export async function GET(request: Request) {
     await dbConnect()
-    const session:Session | null = await getServerSession(authOptions)
+    const session: Session | null = await getServerSession(authOptions)
     const user = session?.user
     if (!session || !session.user) {
         return Response.json({
@@ -22,30 +22,32 @@ export async function GET(request: Request) {
 
     try {
         const user = await UserModel.aggregate([
-            { $match: { id: userId } }, // Match the user by ID
+            { $match: { _id: userId } }, // Match the user by ID
             { $unwind: '$messages' }, // Unwind the messages array
             { $sort: { 'messages.createdAt': -1 } }, // Sort messages by createdAt descending
-            { 
-                $group: { 
-                    _id: '$_id', // Group by user ID
+            {
+                $group: {
+                    _id: '$id', // Group by user ID
                     messages: { $push: '$messages' } // Push all messages into an array
                 }
             }
         ]);
-        if(!user || user.length ===0){
+
+
+        if (!user || user.length === 0) {
             return Response.json({
                 success: false,
-                message: "User not found"
+                message: "Messages Not found"
             },
                 { status: 401 })
         }
         return Response.json({
             success: true,
-            message: user[0].messages
+            messages: user[0].messages
         },
             { status: 200 })
     } catch (error) {
-        console.log("an unexpected error occurred", error)
+
         return Response.json({
             success: false,
             message: "an unexpected error occurred"

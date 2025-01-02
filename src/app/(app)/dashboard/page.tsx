@@ -1,6 +1,6 @@
 "use client";
 
-import  MessageCard  from "@/components/MessageCard";
+import MessageCard from "@/components/MessageCard";
 import { Button } from "@/components/ui/button";
 import { Separator } from "@/components/ui/separator";
 import { Switch } from "@/components/ui/switch";
@@ -11,22 +11,18 @@ import axios, { AxiosError } from "axios";
 import { Loader2, RefreshCcw } from "lucide-react";
 import { User } from "next-auth";
 import { useSession } from "next-auth/react";
-import React, { useCallback, useEffect, useState } from "react";
+import React, { Key, useCallback, useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
-import { acceptMessageSchema }  from "@/schemas/acceptMessageSchema";
+import { acceptMessageSchema } from "@/schemas/acceptMessageSchema";
 import { useToast } from "@/hooks/use-toast";
+
 function UserDashboard() {
   const [messages, setMessages] = useState<Message[]>([]);
   const [isLoading, setIsLoading] = useState(false);
   const [isSwitchLoading, setIsSwitchLoading] = useState(false);
-
   const { toast } = useToast();
-
-  const handleDeleteMessage = (messageId: string) => {
-    setMessages(messages.filter((message) => message._id !== messageId));
-  };
-
   const { data: session } = useSession();
+  const [isClient, setIsClient] = useState(false);
 
   const form = useForm({
     resolver: zodResolver(acceptMessageSchema),
@@ -35,6 +31,10 @@ function UserDashboard() {
   const { register, watch, setValue } = form;
   const acceptMessages = watch("acceptMessages");
 
+
+    const handleDeleteMessage = async (messageId: string) => {
+      setMessages((prevMessages) => prevMessages.filter((message) => message._id !== messageId));
+    }
   const fetchAcceptMessages = useCallback(async () => {
     setIsSwitchLoading(true);
     try {
@@ -45,8 +45,7 @@ function UserDashboard() {
       toast({
         title: "Error",
         description:
-          axiosError.response?.data.message ??
-          "Failed to fetch message settings",
+          axiosError.response?.data.message ?? "Failed to fetch message settings",
         variant: "destructive",
       });
     } finally {
@@ -57,7 +56,7 @@ function UserDashboard() {
   const fetchMessages = useCallback(
     async (refresh: boolean = false) => {
       setIsLoading(true);
-      setIsSwitchLoading(false);
+      setIsSwitchLoading(true);
       try {
         const response = await axios.get<ApiResponse>("/api/get-messages");
         setMessages(response.data.messages || []);
@@ -80,7 +79,7 @@ function UserDashboard() {
         setIsSwitchLoading(false);
       }
     },
-    [setIsLoading, setMessages, toast]
+    [setValue, toast]
   );
 
   // Fetch initial state from the server
@@ -88,7 +87,6 @@ function UserDashboard() {
     if (!session || !session.user) return;
 
     fetchMessages();
-
     fetchAcceptMessages();
   }, [session, setValue, toast, fetchAcceptMessages, fetchMessages]);
 
@@ -108,8 +106,7 @@ function UserDashboard() {
       toast({
         title: "Error",
         description:
-          axiosError.response?.data.message ??
-          "Failed to update message settings",
+          axiosError.response?.data.message ?? "Failed to update message settings",
         variant: "destructive",
       });
     }
@@ -120,10 +117,9 @@ function UserDashboard() {
   }
 
   const { username } = session.user as User;
-
-  const baseUrl = `${window.location.protocol}//${window.location.host}`;
-  const profileUrl = `${baseUrl}/u/${username}`;
-
+console.log(username)
+  const profileUrl = `${window.location.protocol}//${window.location.host}/u/${username}`;
+  console.log(profileUrl)
   const copyToClipboard = () => {
     navigator.clipboard.writeText(profileUrl);
     toast({
@@ -137,7 +133,7 @@ function UserDashboard() {
       <h1 className="text-4xl font-bold mb-4">User Dashboard</h1>
 
       <div className="mb-4">
-        <h2 className="text-lg font-semibold mb-2">Copy Your Unique Link</h2>{" "}
+        <h2 className="text-lg font-semibold mb-2">Copy Your Unique Link</h2>
         <div className="flex items-center">
           <input
             type="text"
@@ -180,7 +176,7 @@ function UserDashboard() {
         {messages.length > 0 ? (
           messages.map((message, index) => (
             <MessageCard
-              key={message._id}
+              key={message._id as Key}
               message={message}
               onMessageDelete={handleDeleteMessage}
             />
