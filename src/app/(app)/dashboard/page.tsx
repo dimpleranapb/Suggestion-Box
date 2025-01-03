@@ -10,6 +10,7 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import axios, { AxiosError } from "axios";
 import { Loader2, RefreshCcw } from "lucide-react";
 import { User } from "next-auth";
+import ClimbingBoxLoader from "react-spinners/ClimbingBoxLoader";
 import { useSession } from "next-auth/react";
 import React, { Key, useCallback, useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
@@ -30,21 +31,24 @@ function UserDashboard() {
   const { register, watch, setValue } = form;
   const acceptMessages = watch("acceptMessages");
 
-
-    const handleDeleteMessage = async (messageId: string) => {
-      setMessages((prevMessages) => prevMessages.filter((message) => message._id !== messageId));
-    }
+  const handleDeleteMessage = async (messageId: string) => {
+    setMessages((prevMessages) =>
+      prevMessages.filter((message) => message._id !== messageId)
+    );
+  };
   const fetchAcceptMessages = useCallback(async () => {
     setIsSwitchLoading(true);
     try {
       const response = await axios.get<ApiResponse>("/api/accept-messages");
+      console.log(response);
       setValue("acceptMessages", response.data.isAcceptingMessage);
     } catch (error) {
       const axiosError = error as AxiosError<ApiResponse>;
       toast({
         title: "Error",
         description:
-          axiosError.response?.data.message ?? "Failed to fetch message settings",
+          axiosError.response?.data.message ??
+          "Failed to fetch message settings",
         variant: "destructive",
       });
     } finally {
@@ -105,7 +109,8 @@ function UserDashboard() {
       toast({
         title: "Error",
         description:
-          axiosError.response?.data.message ?? "Failed to update message settings",
+          axiosError.response?.data.message ??
+          "Failed to update message settings",
         variant: "destructive",
       });
     }
@@ -116,9 +121,9 @@ function UserDashboard() {
   }
 
   const { username } = session.user as User;
-console.log(username)
+  console.log(username);
   const profileUrl = `${window.location.protocol}//${window.location.host}/u/${username}`;
-  console.log(profileUrl)
+  console.log(profileUrl);
   const copyToClipboard = () => {
     navigator.clipboard.writeText(profileUrl);
     toast({
@@ -126,6 +131,21 @@ console.log(username)
       description: "Profile URL has been copied to clipboard.",
     });
   };
+
+  if (isLoading) {
+    return (
+      <div
+        style={{
+          display: "flex",
+          justifyContent: "center",
+          alignItems: "center",
+          height: "100vh",
+        }}
+      >
+        <ClimbingBoxLoader />
+      </div>
+    );
+  }
 
   return (
     <div className="my-8 mx-4 md:mx-8 lg:mx-auto p-6 bg-white rounded w-full max-w-6xl">

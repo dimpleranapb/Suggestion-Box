@@ -1,4 +1,5 @@
-'use client';
+"use client";
+
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
 import { z } from "zod";
@@ -14,46 +15,60 @@ import {
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
 import { messageSchema } from "@/schemas/messageSchema";
-import axios from "axios";
+import axios, { AxiosError } from "axios";
 import { usePathname } from "next/navigation";
 import { useToast } from "@/hooks/use-toast";
+import { ApiResponse } from "@/types/ApiResponse";
 
 export default function ProfileForm() {
   const { toast } = useToast();
   const pathname = usePathname();
-  const username = pathname.split("/")[2];
+  const username = pathname.split("/")[2]; // Extract username from the path.
 
+  // Initialize the form with validation and default values.
   const form = useForm<z.infer<typeof messageSchema>>({
     resolver: zodResolver(messageSchema),
-    defaultValues: {
-      content: "",
-    },
+    defaultValues: { content: "" },
   });
 
-  // Use isSubmitting to disable input and button while submitting
-  const { isSubmitting, isSubmitted } = form.formState;
+  const { isSubmitting } = form.formState; // Track submission state.
 
+  // Handle form submission.
   const onSubmit = async (data: z.infer<typeof messageSchema>) => {
     try {
-      const response = await axios.post("/api/send-message", { username, content: data.content });
+      const response = await axios.post("/api/send-message", {
+        username,
+        content: data.content,
+      });
+
       toast({
         title: "Message Sent",
         description: response.data.message,
       });
 
-      form.reset({
-        content: "", 
-      });
+      // Reset the form after successful submission.
+      form.reset({ content: "" });
     } catch (error) {
-      console.error(error);
+      const axiosError = error as AxiosError<ApiResponse>;
+
+      toast({
+        title: "Error",
+        description:
+          axiosError.response?.data.message ??
+          "An unexpected error occurred. Please try again.",
+        variant: "destructive",
+      });
     }
   };
 
   return (
-    <div className="justify-center align-middle p-2 md:p-10">
-      <div className="py-20">
+    <div className="p-2 md:p-10 flex justify-center items-center">
+      <div className="py-20 w-full max-w-md">
         <Form {...form}>
-          <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-8 flex flex-col px-20">
+          <form
+            onSubmit={form.handleSubmit(onSubmit)}
+            className="space-y-8 flex flex-col px-6"
+          >
             <FormField
               control={form.control}
               name="content"
@@ -62,19 +77,18 @@ export default function ProfileForm() {
                   <FormLabel>Message</FormLabel>
                   <FormControl>
                     <Input
-                      placeholder="Your Message"
+                      placeholder="Your message here..."
                       {...field}
-                      disabled={isSubmitting} // Disable input while submitting or after submission
+                      disabled={isSubmitting}
                     />
                   </FormControl>
-
                   <FormMessage />
                 </FormItem>
               )}
             />
             <div className="flex justify-center">
-              <Button type="submit" disabled={isSubmitting}> {/* Disable button while submitting or after submission */}
-                {isSubmitting ? "Submitting..." :"Send Message"}
+              <Button type="submit" disabled={isSubmitting}>
+                {isSubmitting ? "Sending..." : "Send Message"}
               </Button>
             </div>
           </form>

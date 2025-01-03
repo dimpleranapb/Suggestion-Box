@@ -116,9 +116,9 @@ export default function page() {
                   </FormControl>
                   {isCheckingUsername && <Loader2 className="animate-spin" />}
                   <p
-                    className={`text-sm${
-                      usernameMessage === "Username is Unique"
-                        ? "text-green-500"
+                    className={`text-sm font-bold ${
+                      usernameMessage == "Username is unique"
+                        ? "text-green-600"
                         : "text-red-500"
                     }`}
                   >
@@ -167,8 +167,8 @@ export default function page() {
         </Form>
         <div className="text-center mt-4">
           <p>
-            Already a member?
-            <Link href="/Sign-in" className="text-blue-600 hover;text-blue-800">
+            Already a member? &nbsp;
+            <Link href="/sign-in" className="text-blue-600 hover;text-blue-800">
               Sign in
             </Link>
           </p>
