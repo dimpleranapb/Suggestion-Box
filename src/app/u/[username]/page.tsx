@@ -19,6 +19,7 @@ import axios, { AxiosError } from "axios";
 import { usePathname } from "next/navigation";
 import { useToast } from "@/hooks/use-toast";
 import { ApiResponse } from "@/types/ApiResponse";
+import Squares from "@/components/Sqaures";
 
 export default function ProfileForm() {
   const { toast } = useToast();
@@ -62,38 +63,52 @@ export default function ProfileForm() {
   };
 
   return (
-    <div className="p-2 md:p-10 flex justify-center items-center">
-      <div className="py-20 w-full max-w-md">
-        <Form {...form}>
-          <form
-            onSubmit={form.handleSubmit(onSubmit)}
-            className="space-y-8 flex flex-col px-6"
-          >
-            <FormField
-              control={form.control}
-              name="content"
-              render={({ field }) => (
-                <FormItem>
-                  <FormLabel>Message</FormLabel>
-                  <FormControl>
-                    <Input
-                      placeholder="Your message here..."
-                      {...field}
-                      disabled={isSubmitting}
-                    />
-                  </FormControl>
-                  <FormMessage />
-                </FormItem>
-              )}
-            />
-            <div className="flex justify-center">
-              <Button type="submit" disabled={isSubmitting}>
-                {isSubmitting ? "Sending..." : "Send Message"}
-              </Button>
-            </div>
-          </form>
-        </Form>
+    <>
+      <div className="relative w-full h-screen">
+        {/* Squares component in the background */}
+        <Squares
+          speed={0.5}
+          squareSize={40}
+          direction="diagonal" // up, down, left, right, diagonal
+          borderColor="#fff"
+          hoverFillColor="#222"
+        />
+        
+        {/* Form component on top */}
+        <div className="absolute top-0 left-0 w-full h-full flex justify-center items-center">
+          <div className="py-20 w-full max-w-md bg-transparent/ p-8 rounded-lg shadow-lg">
+            <Form {...form}>
+              <form
+                onSubmit={form.handleSubmit(onSubmit)}
+                className="space-y-8 flex flex-col px-6"
+              >
+                <FormField
+                  control={form.control}
+                  name="content"
+                  render={({ field }) => (
+                    <FormItem>
+                      <FormLabel className="text-xl">Message</FormLabel>
+                      <FormControl>
+                        <Input
+                          placeholder="Your message here..."
+                          {...field}
+                          disabled={isSubmitting}
+                        />
+                      </FormControl>
+                      <FormMessage />
+                    </FormItem>
+                  )}
+                />
+                <div className="flex justify-center">
+                  <Button type="submit" disabled={isSubmitting}>
+                    {isSubmitting ? "Sending..." : "Send Message"}
+                  </Button>
+                </div>
+              </form>
+            </Form>
+          </div>
+        </div>
       </div>
-    </div>
+    </>
   );
-}
+}  

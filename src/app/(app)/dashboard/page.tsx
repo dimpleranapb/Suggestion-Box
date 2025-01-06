@@ -1,5 +1,4 @@
-"use client";
-
+'use client'
 import MessageCard from "@/components/MessageCard";
 import { Button } from "@/components/ui/button";
 import { Separator } from "@/components/ui/separator";
@@ -17,7 +16,6 @@ import { useForm } from "react-hook-form";
 import { acceptMessageSchema } from "@/schemas/acceptMessageSchema";
 import { useToast } from "@/hooks/use-toast";
 import CountUp from "@/components/CountUp";
-import ShinyText from "@/components/ShinyText";
 
 function UserDashboard() {
   const [messages, setMessages] = useState<Message[]>([]);
@@ -38,19 +36,18 @@ function UserDashboard() {
       prevMessages.filter((message) => message._id !== messageId)
     );
   };
+
   const fetchAcceptMessages = useCallback(async () => {
     setIsSwitchLoading(true);
     try {
       const response = await axios.get<ApiResponse>("/api/accept-messages");
-      console.log(response);
       setValue("acceptMessages", response.data.isAcceptingMessage);
     } catch (error) {
       const axiosError = error as AxiosError<ApiResponse>;
       toast({
         title: "Error",
         description:
-          axiosError.response?.data.message ??
-          "Failed to fetch message settings",
+          axiosError.response?.data.message ?? "Failed to fetch message settings",
         variant: "destructive",
       });
     } finally {
@@ -75,8 +72,7 @@ function UserDashboard() {
         const axiosError = error as AxiosError<ApiResponse>;
         toast({
           title: "Error",
-          description:
-            axiosError.response?.data.message ?? "Failed to fetch messages",
+          description: axiosError.response?.data.message ?? "Failed to fetch messages",
           variant: "destructive",
         });
       } finally {
@@ -87,15 +83,13 @@ function UserDashboard() {
     [setValue, toast]
   );
 
-  // Fetch initial state from the server
   useEffect(() => {
     if (!session || !session.user) return;
 
     fetchMessages();
     fetchAcceptMessages();
-  }, [session, setValue, toast, fetchAcceptMessages, fetchMessages]);
+  }, [session, fetchAcceptMessages, fetchMessages]);
 
-  // Handle switch change
   const handleSwitchChange = async () => {
     try {
       const response = await axios.post<ApiResponse>("/api/accept-messages", {
@@ -111,21 +105,15 @@ function UserDashboard() {
       toast({
         title: "Error",
         description:
-          axiosError.response?.data.message ??
-          "Failed to update message settings",
+          axiosError.response?.data.message ?? "Failed to update message settings",
         variant: "destructive",
       });
     }
   };
 
-  if (!session || !session.user) {
-    return <div></div>;
-  }
 
-  const { username } = session.user as User;
-  console.log(username);
+  const { username } = session?.user as User;
   const profileUrl = `${window.location.protocol}//${window.location.host}/u/${username}`;
-  console.log(profileUrl);
   const copyToClipboard = () => {
     navigator.clipboard.writeText(profileUrl);
     toast({
@@ -134,82 +122,78 @@ function UserDashboard() {
     });
   };
 
-  if (isLoading) {
+  if (isLoading || !session || !session.user) {
     return (
-      <div
-        style={{
-          display: "flex",
-          justifyContent: "center",
-          alignItems: "center",
-          height: "100vh",
-        }}
-      >
+      <div className="flex justify-center items-center h-screen bg-gradient-to-bottom">
         <ClimbingBoxLoader />
       </div>
     );
   }
 
   return (
-    <div className="my-8 mx-4 md:mx-8 lg:mx-auto p-6 bg-white rounded w-full max-w-6xl">
-      <ShinyText text="User dashboard" disabled={false} speed={3} className="text-4xl font-bold mb-4" />
-      <ShinyText text="Just some shiny text!" disabled={false} speed={3} className='custom-class' />
+    <div className="h-full w-full bg-transparent p-8 text-white">
+      <h1 className="text-4xl font-extrabold mb-4 text-center">User Dashboard</h1>
+      <h2 className="text-xl font-semibold mb-6 text-center">
+        Welcome, <span className="text-purple-300">{username}</span>!
+      </h2>
 
-
-
-      <div className="mb-4">
+      <div className="bg-gray-900 bg-opacity-50 p-6 rounded-lg mb-6">
         <h2 className="text-lg font-semibold mb-2">Copy Your Unique Link</h2>
         <div className="flex items-center">
           <input
             type="text"
             value={profileUrl}
             disabled
-            className="input input-bordered w-full p-2 mr-2"
+            className="bg-gray-800 text-white rounded-lg p-2 flex-grow mr-2 focus:ring focus:ring-purple-500"
           />
-          <Button onClick={copyToClipboard}>Copy</Button>
+          <Button onClick={copyToClipboard} className="bg-btn-gradient">
+            Copy
+          </Button>
         </div>
       </div>
 
-      <div className="mb-4">
+      <div className="flex items-center bg-gray-900 bg-opacity-50 p-6 rounded-lg mb-6">
         <Switch
           {...register("acceptMessages")}
           checked={acceptMessages}
           onCheckedChange={handleSwitchChange}
           disabled={isSwitchLoading}
+          className="bg-black"
         />
-        <span className="ml-2">
+        <span className="ml-3 text-sm font-medium">
           Accept Messages: {acceptMessages ? "On" : "Off"}
         </span>
       </div>
-      <Separator />
+
+      <Separator className="my-6" />
 
       <Button
-        className="mt-4"
-        variant="outline"
-        onClick={(e) => {
-          e.preventDefault();
-          fetchMessages(true);
-        }}
+        className="bg-btn-gradient flex items-center justify-center mx-auto"
+        onClick={() => fetchMessages(true)}
       >
         {isLoading ? (
           <Loader2 className="h-4 w-4 animate-spin" />
         ) : (
-          <RefreshCcw className="h-4 w-4" />
+          <RefreshCcw className="h-4 w-4 mr-2" />
         )}
+        Refresh Messages
       </Button>
-      <div className="mt-4 flex items-center justify-self-start">
-        <h2 className="text-xl font-bold">Total Messages Received:</h2> &nbsp;
+
+      <div className="mt-8 text-center">
+        <h2 className="text-xl font-bold">Total Messages Received:</h2>
         <CountUp
           from={0}
           to={messages.length}
           separator=","
           direction="up"
           duration={1}
-          className="count-up-text font-bold text-xl"
+          className="text-3xl font-extrabold"
         />
       </div>
-      <div className="mt-4 grid grid-cols-1 md:grid-cols-2 gap-6">
+
+      <div className="mt-6 grid grid-cols-1 md:grid-cols-2 gap-6">
         {messages.length > 0 ? (
-          messages.map((message, index) => (
+          messages.map((message) => (
             <MessageCard
               key={message._id as Key}
               message={message}

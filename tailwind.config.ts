@@ -9,6 +9,10 @@ const config: Config = {
   ],
   theme: {
     extend: {
+      backgroundImage: {
+        'gradient-to-bottom': 'linear-gradient(to bottom, #000428, #004e92)',
+        'btn-gradient': 'linear-gradient(to right, #5c258d, #4389a2)'
+      },
       keyframes: {
         shine: {
           "0%": { "background-position": "100%" },

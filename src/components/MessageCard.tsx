@@ -1,4 +1,5 @@
 "use client";
+
 import React from "react";
 import {
   Card,
@@ -36,49 +37,75 @@ export default function MessageCard({
   onMessageDelete,
 }: MessageCardProps) {
   const { toast } = useToast();
+
   const handleDeleteConfirm = async () => {
-    const response = await axios.delete<ApiResponse>(
-      `/api/delete-message/${message._id}`
-    );
-    toast({
-      title: response.data.message,
-    });
-    onMessageDelete(message._id as string);
+    try {
+      const response = await axios.delete<ApiResponse>(
+        `/api/delete-message/${message._id}`
+      );
+      toast({
+        title: "Message Deleted",
+        description: response.data.message,
+        variant: "default",
+      });
+      onMessageDelete(message._id as string);
+    } catch (error) {
+      toast({
+        title: "Error",
+        description: "Failed to delete the message. Please try again later.",
+        variant: "destructive",
+      });
+    }
   };
+
   return (
-    <div>
-      <Card>
-        <CardHeader>
-          <CardTitle>{message.content}</CardTitle>
-          <AlertDialog>
-            <AlertDialogTrigger asChild>
-              <div className="flex items-center space-x-2">
-                <Button className="p-2" variant="destructive">
+    <div className="rounded-lg shadow-md bg-gray dark:bg-gray-800">
+      <Card className="bg-gray-200 shadow-xl dark:from-gray-800 dark:to-gray-900 shadow-inner">
+        <CardHeader className="p-4 border-b dark:border-gray-700">
+          <div className="flex justify-between items-center">
+            <CardTitle className="text-lg font-semibold text-gray-900 dark:text-gray-100">
+              {message.content}
+            </CardTitle>
+            <AlertDialog>
+              <AlertDialogTrigger asChild>
+                <Button
+                  className="p-2 rounded-md text-red-600 hover:bg-red-50 dark:hover:bg-red-900"
+                  variant="ghost"
+                >
                   <X className="w-5 h-5" />
                 </Button>
-              </div>
-            </AlertDialogTrigger>
-            <AlertDialogContent>
-              <AlertDialogHeader>
-                <AlertDialogTitle>Are you absolutely sure?</AlertDialogTitle>
-                <AlertDialogDescription>
-                  This action cannot be undone. This will permanently delete
-                  message from your account.
-                </AlertDialogDescription>
-              </AlertDialogHeader>
-              <AlertDialogFooter>
-                <AlertDialogCancel>Cancel</AlertDialogCancel>
-                <AlertDialogAction onClick={handleDeleteConfirm}>
-                  Continue
-                </AlertDialogAction>
-              </AlertDialogFooter>
-            </AlertDialogContent>
-          </AlertDialog>
-          <CardDescription>
+              </AlertDialogTrigger>
+              <AlertDialogContent>
+                <AlertDialogHeader>
+                  <AlertDialogTitle className="text-lg font-bold">
+                    Are you absolutely sure?
+                  </AlertDialogTitle>
+                  <AlertDialogDescription className="text-sm text-gray-600 dark:text-gray-400">
+                    This action cannot be undone. This will permanently delete
+                    the message from your account.
+                  </AlertDialogDescription>
+                </AlertDialogHeader>
+                <AlertDialogFooter className="flex justify-end space-x-4">
+                  <AlertDialogCancel className="text-gray-600 dark:text-gray-300">
+                    Cancel
+                  </AlertDialogCancel>
+                  <AlertDialogAction
+                    className="bg-red-600 text-white hover:bg-red-700"
+                    onClick={handleDeleteConfirm}
+                  >
+                    Confirm
+                  </AlertDialogAction>
+                </AlertDialogFooter>
+              </AlertDialogContent>
+            </AlertDialog>
+          </div>
+          <CardDescription className="text-sm text-gray-500 dark:text-gray-400 mt-2">
             Sent on: {new Date(message.createdAt).toLocaleString()}
           </CardDescription>
         </CardHeader>
-        <CardContent></CardContent>
+        <CardContent className="p-4">
+          {/* Add additional content or actions if needed */}
+        </CardContent>
       </Card>
     </div>
   );
