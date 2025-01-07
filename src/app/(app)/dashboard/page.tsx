@@ -1,4 +1,4 @@
-'use client'
+"use client";
 import MessageCard from "@/components/MessageCard";
 import { Button } from "@/components/ui/button";
 import { Separator } from "@/components/ui/separator";
@@ -16,6 +16,7 @@ import { useForm } from "react-hook-form";
 import { acceptMessageSchema } from "@/schemas/acceptMessageSchema";
 import { useToast } from "@/hooks/use-toast";
 import CountUp from "@/components/CountUp";
+import BlurText from "@/components/BlurText";
 
 function UserDashboard() {
   const [messages, setMessages] = useState<Message[]>([]);
@@ -47,7 +48,8 @@ function UserDashboard() {
       toast({
         title: "Error",
         description:
-          axiosError.response?.data.message ?? "Failed to fetch message settings",
+          axiosError.response?.data.message ??
+          "Failed to fetch message settings",
         variant: "destructive",
       });
     } finally {
@@ -72,7 +74,8 @@ function UserDashboard() {
         const axiosError = error as AxiosError<ApiResponse>;
         toast({
           title: "Error",
-          description: axiosError.response?.data.message ?? "Failed to fetch messages",
+          description:
+            axiosError.response?.data.message ?? "Failed to fetch messages",
           variant: "destructive",
         });
       } finally {
@@ -105,14 +108,14 @@ function UserDashboard() {
       toast({
         title: "Error",
         description:
-          axiosError.response?.data.message ?? "Failed to update message settings",
+          axiosError.response?.data.message ??
+          "Failed to update message settings",
         variant: "destructive",
       });
     }
   };
 
-
-  const { username } = session?.user as User;
+  const username = session?.user?.username;
   const profileUrl = `${window.location.protocol}//${window.location.host}/u/${username}`;
   const copyToClipboard = () => {
     navigator.clipboard.writeText(profileUrl);
@@ -125,17 +128,24 @@ function UserDashboard() {
   if (isLoading || !session || !session.user) {
     return (
       <div className="flex justify-center items-center h-screen bg-gradient-to-bottom">
-        <ClimbingBoxLoader />
+        <ClimbingBoxLoader color="#fff" size={30} />
       </div>
     );
   }
 
   return (
-    <div className="h-full w-full bg-transparent p-8 text-white">
-      <h1 className="text-4xl font-extrabold mb-4 text-center">User Dashboard</h1>
-      <h2 className="text-xl font-semibold mb-6 text-center">
-        Welcome, <span className="text-purple-300">{username}</span>!
-      </h2>
+    <div className="h-full w-full bg-transparent p-8  sm:px-28 text-white">
+      <h1 className="text-4xl font-extrabold mb-4 text-center">
+        User Dashboard
+      </h1>
+
+      <BlurText
+        text={`Welcome  ${username}!`}
+        delay={150}
+        animateBy="words"
+        direction="top"
+        className="text-center text-lg font-semibold flex justify-center mb-6"
+      />
 
       <div className="bg-gray-900 bg-opacity-50 p-6 rounded-lg mb-6">
         <h2 className="text-lg font-semibold mb-2">Copy Your Unique Link</h2>

@@ -19,7 +19,7 @@ import axios, { AxiosError } from "axios";
 import { usePathname } from "next/navigation";
 import { useToast } from "@/hooks/use-toast";
 import { ApiResponse } from "@/types/ApiResponse";
-import Squares from "@/components/Sqaures";
+import Squares from "@/components/Squares";
 
 export default function ProfileForm() {
   const { toast } = useToast();
@@ -75,8 +75,8 @@ export default function ProfileForm() {
         />
         
         {/* Form component on top */}
-        <div className="absolute top-0 left-0 w-full h-full flex justify-center items-center">
-          <div className="py-20 w-full max-w-md bg-transparent/ p-8 rounded-lg shadow-lg">
+        <div className="absolute top-0 left-0 w-full h-full flex justify-center items-center bg-black/80 ">
+          <div className="py-20 mt-[-150px] w-full max-w-md bg-transparent/ rounded-lg shadow-lg">
             <Form {...form}>
               <form
                 onSubmit={form.handleSubmit(onSubmit)}
@@ -87,7 +87,7 @@ export default function ProfileForm() {
                   name="content"
                   render={({ field }) => (
                     <FormItem>
-                      <FormLabel className="text-xl">Message</FormLabel>
+                      <FormLabel className="text-xl text-white">Message</FormLabel>
                       <FormControl>
                         <Input
                           placeholder="Your message here..."
@@ -101,6 +101,7 @@ export default function ProfileForm() {
                 />
                 <div className="flex justify-center">
                   <Button type="submit" disabled={isSubmitting}>
+                    
                     {isSubmitting ? "Sending..." : "Send Message"}
                   </Button>
                 </div>

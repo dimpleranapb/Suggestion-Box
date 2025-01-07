@@ -5,6 +5,7 @@ import Link from "next/link";
 import { useSession, signOut } from "next-auth/react";
 import { User } from "next-auth";
 import { Button } from "./ui/button";
+import GradientText from "./GradientText";
 
 export default function Navbar() {
   const { data: session } = useSession();
@@ -38,14 +39,18 @@ export default function Navbar() {
     <nav
       className={`p-4 md:p-6 shadow-lg sticky top-0 z-10 transition-colors duration-300 ${
         isScrolled
-          ? "bg-black/50 dark:bg-gray-800 backdrop-blur-md text-white"
+          ? "bg-white/5 dark:bg-gray-800 backdrop-blur-md text-white"
           : "bg-transparent dark:bg-black text-white"
       }`}
     >
-      <div className="container mx-auto flex flex-col md:flex-row justify-between items-center">
+      <div className="container mx-auto flex  flex-row justify-between items-center ">
         {/* Logo */}
-        <Link className="text-xl font-bold mb-4 md:mb-0" href="/">
-          Mystery Message
+        <Link className="text-2xl" href="/">
+          <GradientText
+            colors={["#40ffaa", "#4079ff", "#40ffaa", "#4079ff", "#40ffaa"]}
+            animationSpeed={3}          >
+            Mystery Message
+          </GradientText>
         </Link>
 
         {/* Conditional Rendering Based on Session */}
@@ -64,7 +69,9 @@ export default function Navbar() {
           </div>
         ) : (
           <Link href="/sign-in">
-            <Button className="w-full md:w-auto">Login</Button>
+            <Button className="w-full bg-gradient-to-r from-blue-500 to-purple-500 hover:opacity-90 md:w-auto">
+              Login
+            </Button>
           </Link>
         )}
       </div>
