@@ -60,7 +60,7 @@ export default function MessageCard({
 
   return (
     <div className="rounded-lg shadow-md bg-gray dark:bg-gray-800">
-      <Card className="bg-gray-200 shadow-xl dark:from-gray-800 dark:to-gray-900 shadow-inner">
+      <Card className="bg-gray-200 dark:from-gray-800 dark:to-gray-900 shadow-inner">
         <CardHeader className="p-4 border-b dark:border-gray-700">
           <div className="flex justify-between items-center">
             <CardTitle className="text-lg font-semibold text-gray-900 dark:text-gray-100">

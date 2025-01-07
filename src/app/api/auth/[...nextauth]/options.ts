@@ -1,11 +1,11 @@
-import { NextAuthConfig } from "next-auth";
+import { NextAuthOptions } from "next-auth";
 import bcrypt from "bcrypt"; // Import bcrypt for password comparison
 import CredentialsProvider from "next-auth/providers/credentials"; // Use credentials provider
 import dbConnect from "@/lib/dbConnect"; // Import database connection utility
 import UserModel from "@/model/User"; // Import User model
 
 // Export the authentication configuration
-export const authOptions: NextAuthConfig = {
+export const authOptions: NextAuthOptions = {
     providers: [
         CredentialsProvider({
             id: "credentials", // Custom identifier for the provider
@@ -52,7 +52,7 @@ export const authOptions: NextAuthConfig = {
     ],
     callbacks: {
         // JWT callback to add custom fields to the token
-        async jwt({ token, user }) {
+        async jwt({ token, user }: { token: any, user?: any }) {
             if (user) {
                 token._id = user._id?.toString(); // Add user ID to the token
                 token.isVerified = user.isVerified; // Add verification status
@@ -63,7 +63,7 @@ export const authOptions: NextAuthConfig = {
         },
 
         // Session callback to include custom fields in the session object
-        async session({ session, token }) {
+        async session({ session, token }: { session: any, token: any }) {
             if (token) {
                 session.user._id = token._id; // Attach user ID
                 session.user.isVerified = token.isVerified; // Attach verification status
