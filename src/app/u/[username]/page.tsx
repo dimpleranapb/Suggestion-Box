@@ -88,7 +88,7 @@ export default function ProfileForm() {
                   name="content"
                   render={({ field }) => (
                     <FormItem>
-                      <FormLabel className="text-xl text-white">Message</FormLabel>
+                      <FormLabel className="text-xl text-white">Feedback & Suggestion</FormLabel>
                       <FormControl>
                         <Input
                           placeholder="Your message here..."
