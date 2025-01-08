@@ -11,11 +11,12 @@ import Autoplay from "embla-carousel-autoplay";
 import messages from "@/messages.json";
 import Link from "next/link";
 import Squares from "@/components/Squares";
+import ShinyText from "@/components/ShinyText";
 
 export default function Page() {
   return (
     <>
-      <div className="absolute -z-10 w-full h-full">
+      <div className="absolute -z-10 w-full h-full lg:h-[110%] top-0">
         {/* Squares component in the background */}
         <Squares
           speed={0.5}
@@ -26,23 +27,22 @@ export default function Page() {
         />
       </div>
 
-      <main className="relative flex-grow flex flex-col items-center justify-center px-4 md:px-24 py-12 bg-black/80 z-9">
+      <main className="relative flex-grow flex flex-col items-center justify-center px-4 md:px-24 py-12 bg-black/75 z-9">
         {/* Hero Section */}
-        <section className="text-center mb-8 md:mb-12">
-          <h1 className="text-6xl md:text-5xl font-extrabold leading-tight mb-4 bg-gradient-to-r from-blue-500 to-purple-500 bg-clip-text text-transparent">
+        <section className="text-center mb-8 p-6 sm:p-0 md:mb-12">
+          <h1 className="text-4xl sm:text-5xl md:text-6xl font-extrabold leading-tight mb-4 bg-gradient-to-r from-blue-500 to-purple-500 bg-clip-text text-transparent">
             Dive into the World of Anonymous Conversations
           </h1>
 
-          <p className="text-lg md:text-xl font-bold text-white opacity-80 max-w-2xl mx-auto">
+          <p className="text-lg sm:text-xl md:text-xl font-bold text-white opacity-80 max-w-3xl mx-auto">
             Share your thoughts, ask questions, and receive anonymous feedback
             in a safe and engaging space. Everyone has a voice here.
           </p>
         </section>
 
         {/* Carousel Section */}
-        <section className="w-full max-w-md mb-12">
+        <section className="w-full max-w-md mb-12 px-4">
           {/* Adjusted width and added margin bottom */}
-          {/* Reduced size of the carousel */}
           <Carousel
             plugins={[Autoplay({ delay: 2000 })]}
             className="w-full rounded-xl overflow-hidden shadow-lg"
@@ -71,15 +71,15 @@ export default function Page() {
         </section>
 
         {/* Call to Action Section */}
-        <section className="mt-12 text-center bg-transparent">
-          <p className="text-xl text-white mb-4">
+        <section className=" sm:mt-10 text-center bg-transparent">
+          <p className="text-xl sm:text-2xl md:text-xl text-white mb-4">
             Ready to start your anonymous conversation?
           </p>
           <Link
             href="/sign-up"
-            className="px-4 mt-4 py-3 bg-gradient-to-r from-blue-500 to-purple-500 hover:opacity-80 text-white text-lg font-semibold rounded-lg shadow-lg hover:scale-105 transition-all"
+            className="bg-gray-900 p-2  border rounded-lg  font-bold"
           >
-            SIGN UP NOW
+            <ShinyText text="SIGN UP NOW" disabled={false} speed={1} className='' />
           </Link>
         </section>
       </main>

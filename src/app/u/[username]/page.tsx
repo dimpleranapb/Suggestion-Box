@@ -20,6 +20,7 @@ import { usePathname } from "next/navigation";
 import { useToast } from "@/hooks/use-toast";
 import { ApiResponse } from "@/types/ApiResponse";
 import Squares from "@/components/Squares";
+import ShinyText from "@/components/ShinyText";
 
 export default function ProfileForm() {
   const { toast } = useToast();
@@ -101,8 +102,9 @@ export default function ProfileForm() {
                 />
                 <div className="flex justify-center">
                   <Button type="submit" disabled={isSubmitting}>
+                  <ShinyText text={isSubmitting ? "Sending..." : "Send Message"} disabled={false} speed={1} className='text-lg font-semibold' />
                     
-                    {isSubmitting ? "Sending..." : "Send Message"}
+                    
                   </Button>
                 </div>
               </form>

@@ -8,7 +8,6 @@ import { ApiResponse } from "@/types/ApiResponse";
 import { zodResolver } from "@hookform/resolvers/zod";
 import axios, { AxiosError } from "axios";
 import { Loader2, RefreshCcw } from "lucide-react";
-import { User } from "next-auth";
 import ClimbingBoxLoader from "react-spinners/ClimbingBoxLoader";
 import { useSession } from "next-auth/react";
 import React, { Key, useCallback, useEffect, useState } from "react";
@@ -24,6 +23,7 @@ function UserDashboard() {
   const [isSwitchLoading, setIsSwitchLoading] = useState(false);
   const { toast } = useToast();
   const { data: session } = useSession();
+  const [profileUrl, setProfileUrl] = useState<string>("");
 
   const form = useForm({
     resolver: zodResolver(acceptMessageSchema),
@@ -48,8 +48,7 @@ function UserDashboard() {
       toast({
         title: "Error",
         description:
-          axiosError.response?.data.message ??
-          "Failed to fetch message settings",
+          axiosError.response?.data.message ?? "Failed to fetch message settings",
         variant: "destructive",
       });
     } finally {
@@ -91,6 +90,9 @@ function UserDashboard() {
 
     fetchMessages();
     fetchAcceptMessages();
+
+    // Set profile URL on client side
+    setProfileUrl(`${window.location.protocol}//${window.location.host}/u/${session.user.username}`);
   }, [session, fetchAcceptMessages, fetchMessages]);
 
   const handleSwitchChange = async () => {
@@ -108,15 +110,12 @@ function UserDashboard() {
       toast({
         title: "Error",
         description:
-          axiosError.response?.data.message ??
-          "Failed to update message settings",
+          axiosError.response?.data.message ?? "Failed to update message settings",
         variant: "destructive",
       });
     }
   };
 
-  const username = session?.user?.username;
-  const profileUrl = `${window.location.protocol}//${window.location.host}/u/${username}`;
   const copyToClipboard = () => {
     navigator.clipboard.writeText(profileUrl);
     toast({
@@ -134,13 +133,11 @@ function UserDashboard() {
   }
 
   return (
-    <div className="h-full w-full bg-transparent p-8  sm:px-28 text-white">
-      <h1 className="text-4xl font-extrabold mb-4 text-center">
-        User Dashboard
-      </h1>
+    <div className="h-full w-full bg-transparent p-8 sm:px-28 text-white">
+      <h1 className="text-4xl font-extrabold mb-4 text-center">User Dashboard</h1>
 
       <BlurText
-        text={`Welcome  ${username}!`}
+        text={`Welcome  ${session.user.username}!`}
         delay={150}
         animateBy="words"
         direction="top"

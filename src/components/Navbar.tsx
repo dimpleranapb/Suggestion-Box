@@ -10,7 +10,6 @@ import GradientText from "./GradientText";
 export default function Navbar() {
   const { data: session } = useSession();
   const [loading, setLoading] = useState(false);
-  const [isScrolled, setIsScrolled] = useState(false);
 
   const user: User = session?.user as User;
 
@@ -23,33 +22,16 @@ export default function Navbar() {
     }
   };
 
-  // Detect scroll position
-  useEffect(() => {
-    const handleScroll = () => {
-      setIsScrolled(window.scrollY > 0); // Check if the user has scrolled
-    };
-
-    window.addEventListener("scroll", handleScroll);
-    return () => {
-      window.removeEventListener("scroll", handleScroll); // Cleanup listener
-    };
-  }, []);
-
   return (
-    <nav
-      className={`p-4 md:p-6 shadow-lg sticky top-0 z-10 transition-colors duration-300 ${
-        isScrolled
-          ? "bg-white/5 dark:bg-gray-800 backdrop-blur-md text-white"
-          : "bg-transparent dark:bg-black text-white"
-      }`}
-    >
+    <nav className="p-4 md:p-6 shadow-lg sticky top-0 z-10 bg-white/5 dark:bg-gray-800 backdrop-blur-sm text-white">
       <div className="container mx-auto flex  flex-row justify-between items-center ">
         {/* Logo */}
-        <Link className="text-2xl" href="/">
+        <Link className="text-2xl " href="/">
           <GradientText
             colors={["#40ffaa", "#4079ff", "#40ffaa", "#4079ff", "#40ffaa"]}
-            animationSpeed={3}          >
-            Mystery Message
+            animationSpeed={3}
+          >
+           <p className="font-bold text-xl sm:text-3xl">SUGGESTION BOX</p> 
           </GradientText>
         </Link>
 

@@ -67,10 +67,10 @@ export default function Page() {
   };
 
   return (
-    <div className="flex justify-center items-center min-h-screen bg-transparent">
-      <div className="w-full max-w-md p-8 space-y-8 bg-gray-200 rounded-lg shadow-md">
+    <div className="flex justify-center items-center h-full my-6 sm:min-h-screen bg-transparent px-4 sm:px-6 md:px-8 py-4 sm:py-8">
+      <div className="w-full max-w-md p-8 sm:space-y-8 bg-gray-200 rounded-lg shadow-md">
         <div className="text-center">
-          <h1 className="text-4xl font-extrabold tracking-tight lg:text-5xl mb-6">
+          <h1 className="text-3xl sm:text-4xl md:text-5xl font-extrabold tracking-tight mb-6">
             Login to your Suggestion Box
           </h1>
         </div>
@@ -81,9 +81,13 @@ export default function Page() {
               name="identifier"
               render={({ field }) => (
                 <FormItem>
-                  <FormLabel>Email/Username</FormLabel>
+                  <FormLabel className="font-bold text-xl">Email</FormLabel>
                   <FormControl>
-                    <Input placeholder="email/username" {...field} />
+                    <Input
+                      placeholder="email/username"
+                      className="w-full"
+                      {...field}
+                    />
                   </FormControl>
                   <FormMessage />
                 </FormItem>
@@ -94,15 +98,24 @@ export default function Page() {
               name="password"
               render={({ field }) => (
                 <FormItem>
-                  <FormLabel>Password</FormLabel>
+                  <FormLabel className="font-bold text-xl">Password</FormLabel>
                   <FormControl>
-                    <Input type="password" placeholder="password" {...field} />
+                    <Input
+                      type="password"
+                      placeholder="password"
+                      className="w-full"
+                      {...field}
+                    />
                   </FormControl>
                   <FormMessage />
                 </FormItem>
               )}
             />
-            <Button type="submit" disabled={isSubmitting}>
+            <Button
+              type="submit"
+              disabled={isSubmitting}
+              className="w-full sm:w-auto"
+            >
               {isSubmitting ? (
                 <>
                   <Loader2 className="mr-2 h-4 w-4 animate-spin" /> Please Wait
@@ -115,7 +128,7 @@ export default function Page() {
         </Form>
         <div className="text-center mt-4">
           <p>
-            Dont have an account? &nbsp;
+            Don't have an account? &nbsp;
             <Link href="/sign-up" className="text-blue-600 hover:text-blue-800">
               Sign up Now
             </Link>
