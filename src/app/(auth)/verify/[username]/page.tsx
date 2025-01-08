@@ -1,4 +1,5 @@
 "use client";
+import { Button } from "@/components/ui/button";
 import {
   Form,
   FormControl,
@@ -12,7 +13,6 @@ import { useToast } from "@/hooks/use-toast";
 import { verifySchema } from "@/schemas/verifySchema";
 import { ApiResponse } from "@/types/ApiResponse";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { Button } from "@react-email/components";
 import axios, { AxiosError } from "axios";
 import { useParams, useRouter } from "next/navigation";
 import React from "react";
