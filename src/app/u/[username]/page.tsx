@@ -7,7 +7,6 @@ import { Button } from "@/components/ui/button";
 import {
   Form,
   FormControl,
-  FormDescription,
   FormField,
   FormItem,
   FormLabel,
@@ -74,10 +73,28 @@ export default function ProfileForm() {
           borderColor="#fff"
           hoverFillColor="#222"
         />
-        
-        {/* Form component on top */}
-        <div className="absolute top-0 left-0 w-full h-full flex justify-center items-center bg-black/80 ">
-          <div className="py-20 mt-[-150px] w-full max-w-md bg-transparent/ rounded-lg shadow-lg">
+
+        {/* Description and Form */}
+        <div className="absolute top-0 left-0 w-full h-full flex flex-col justify-center items-center bg-black/80 px-4">
+          {/* Description */}
+          <div className="max-w-2xl sm:mt-10 text-white text-center mb-8">
+            <h1 className="text-3xl font-bold mb-4 ">Anonymous Feedback Form</h1>
+            <p className="mb-2">
+              We’ve created this <strong>anonymous feedback form</strong> to improve teamwork and the workplace environment. Share your honest feedback, suggestions, or complaints without revealing your identity.
+            </p>
+            <ul className="list-disc list-inside text-left">
+              <li>Issues with the <strong>working environment</strong>.</li>
+              <li>Concerns about <strong>colleagues, teammates, or leaders</strong>.</li>
+              <li>Feedback on <strong>management, policies, or decisions</strong>.</li>
+              <li>Ideas for <strong>new initiatives or improvements</strong>.</li>
+              <li>Suggestions for <strong>training and development</strong>.</li>
+              <li>Anything you’re <strong>uncomfortable discussing in person</strong>.</li>
+            </ul>
+            
+          </div>
+
+          {/* Form */}
+          <div className="  sm:py-20 w-full max-w-md bg-transparent/ rounded-lg shadow-lg">
             <Form {...form}>
               <form
                 onSubmit={form.handleSubmit(onSubmit)}
@@ -102,16 +119,22 @@ export default function ProfileForm() {
                 />
                 <div className="flex justify-center">
                   <Button type="submit" disabled={isSubmitting}>
-                  <ShinyText text={isSubmitting ? "Sending..." : "Send Message"} disabled={false} speed={1} className='text-lg font-semibold' />
-                    
-                    
+                    <ShinyText
+                      text={isSubmitting ? "Sending..." : "Send Message"}
+                      disabled={false}
+                      speed={1}
+                      className="text-lg font-semibold"
+                    />
                   </Button>
                 </div>
               </form>
             </Form>
+            <p className="mt-4">
+              This platform is <strong>100% anonymous</strong>, ensuring your identity is never revealed. Your input matters—thank you for helping us grow!
+            </p>
           </div>
         </div>
       </div>
     </>
   );
-}  
+}
