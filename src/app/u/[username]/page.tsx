@@ -76,25 +76,42 @@ export default function ProfileForm() {
 
         {/* Description and Form */}
         <div className="absolute top-0 left-0 w-full h-full flex flex-col justify-center items-center bg-black/80 px-4">
-          {/* Description */}
+          ` `{/* Description */}
           <div className="max-w-2xl sm:mt-10 text-white text-center mb-8">
-            <h1 className="text-3xl font-bold mb-4 ">Anonymous Feedback Form</h1>
+          <h1 className="text-4xl font-extrabold mb-4 bg-gradient-to-r from-blue-500 via-purple-500 to-pink-500 text-transparent bg-clip-text">
+  Anonymous Feedback Form
+</h1>
             <p className="mb-2">
-              We’ve created this <strong>anonymous feedback form</strong> to improve teamwork and the workplace environment. Share your honest feedback, suggestions, or complaints without revealing your identity.
+              We’ve created this <strong>anonymous feedback form</strong> to
+              improve teamwork and the workplace environment. Share your honest
+              feedback, suggestions, or complaints without revealing your
+              identity.
             </p>
             <ul className="list-disc list-inside text-left">
-              <li>Issues with the <strong>working environment</strong>.</li>
-              <li>Concerns about <strong>colleagues, teammates, or leaders</strong>.</li>
-              <li>Feedback on <strong>management, policies, or decisions</strong>.</li>
-              <li>Ideas for <strong>new initiatives or improvements</strong>.</li>
-              <li>Suggestions for <strong>training and development</strong>.</li>
-              <li>Anything you’re <strong>uncomfortable discussing in person</strong>.</li>
+              <li>
+                Issues with the <strong>working environment</strong>.
+              </li>
+              <li>
+                Concerns about{" "}
+                <strong>colleagues, teammates, or leaders</strong>.
+              </li>
+              <li>
+                Feedback on <strong>management, policies, or decisions</strong>.
+              </li>
+              <li>
+                Ideas for <strong>new initiatives or improvements</strong>.
+              </li>
+              <li>
+                Suggestions for <strong>training and development</strong>.
+              </li>
+              <li>
+                Anything you’re{" "}
+                <strong>uncomfortable discussing in person</strong>.
+              </li>
             </ul>
-            
           </div>
-
           {/* Form */}
-          <div className="  sm:py-20 w-full max-w-md bg-transparent/ rounded-lg shadow-lg">
+          <div className="  sm:py-0 w-full max-w-md bg-transparent/ rounded-lg shadow-lg">
             <Form {...form}>
               <form
                 onSubmit={form.handleSubmit(onSubmit)}
@@ -105,12 +122,16 @@ export default function ProfileForm() {
                   name="content"
                   render={({ field }) => (
                     <FormItem>
-                      <FormLabel className="text-xl text-white">Feedback or Suggestions</FormLabel>
+                      <FormLabel className="text-xl text-white">
+                        Feedback or Suggestions
+                      </FormLabel>
                       <FormControl>
-                        <Input
+                        <textarea
                           placeholder="Your message here..."
                           {...field}
                           disabled={isSubmitting}
+                          rows={2} // Multi-line input (2 rows)
+                          className="w-full p-3 text-md text-black font-semibold bg-white border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500" // Matches ShadCN styling
                         />
                       </FormControl>
                       <FormMessage />
@@ -122,15 +143,17 @@ export default function ProfileForm() {
                     <ShinyText
                       text={isSubmitting ? "Sending..." : "Send Message"}
                       disabled={false}
-                      speed={1}
+                      speed={0.5}
                       className="text-lg font-semibold"
                     />
                   </Button>
                 </div>
               </form>
             </Form>
-            <p className="mt-4">
-              This platform is <strong>100% anonymous</strong>, ensuring your identity is never revealed. Your input matters—thank you for helping us grow!
+            <p className="mt-4 text-white text-center">
+              Feel free to share openly—whether it’s{" "}
+              <b>appreciating a teammate</b> or <b>highlighting an issue</b>{" "}
+              that needs attention.
             </p>
           </div>
         </div>
