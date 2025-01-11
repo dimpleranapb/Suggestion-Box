@@ -1,4 +1,5 @@
-import { useRef, useEffect, useState } from 'react';
+"use client";
+import { ReactNode, useRef, useEffect, useState } from 'react';
 
 interface SquaresProps {
   direction?: 'right' | 'left' | 'up' | 'down' | 'diagonal';
@@ -6,11 +7,7 @@ interface SquaresProps {
   borderColor?: string;
   squareSize?: number;
   hoverFillColor?: string;
-}
-
-interface HoveredSquare {
-  x: number;
-  y: number;
+  children?: ReactNode;
 }
 
 const Squares: React.FC<SquaresProps> = ({
@@ -19,13 +16,14 @@ const Squares: React.FC<SquaresProps> = ({
   borderColor = '#999',
   squareSize = 40,
   hoverFillColor = '#222',
+  children
 }) => {
   const canvasRef = useRef<HTMLCanvasElement | null>(null);
   const requestRef = useRef<number | null>(null);
   const numSquaresX = useRef<number>(0);
   const numSquaresY = useRef<number>(0);
   const gridOffset = useRef<{ x: number; y: number }>({ x: 0, y: 0 });
-  const [hoveredSquare, setHoveredSquare] = useState<HoveredSquare | null>(null);
+  const [hoveredSquare, setHoveredSquare] = useState<{ x: number; y: number } | null>(null);
 
   useEffect(() => {
     const canvas = canvasRef.current;
@@ -111,7 +109,6 @@ const Squares: React.FC<SquaresProps> = ({
       requestRef.current = requestAnimationFrame(updateAnimation);
     };
 
-    // Track mouse hover
     const handleMouseMove = (event: MouseEvent) => {
       const rect = canvas.getBoundingClientRect();
       const mouseX = event.clientX - rect.left;
@@ -143,7 +140,14 @@ const Squares: React.FC<SquaresProps> = ({
     };
   }, [direction, speed, borderColor, hoverFillColor, hoveredSquare, squareSize]);
 
-  return <canvas ref={canvasRef} className="w-full h-full border-none block"></canvas>;
+  return (
+    <div className="relative w-full min-h-screen">
+      <div className="absolute inset-0 -z-10 w-full h-full">
+        <canvas ref={canvasRef} className="w-full h-full border-none block"></canvas>
+      </div>
+      <div >{children}</div>
+    </div>
+  );
 };
 
 export default Squares;

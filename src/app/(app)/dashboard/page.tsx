@@ -1,4 +1,5 @@
 "use client";
+
 import MessageCard from "@/components/MessageCard";
 import { Button } from "@/components/ui/button";
 import { Separator } from "@/components/ui/separator";
@@ -17,13 +18,17 @@ import { useToast } from "@/hooks/use-toast";
 import CountUp from "@/components/CountUp";
 import BlurText from "@/components/BlurText";
 
+type FilterOptions = "all" | "feedback" | "suggestion" | "appreciation";
+
 function UserDashboard() {
   const [messages, setMessages] = useState<Message[]>([]);
+  const [filteredMessages, setFilteredMessages] = useState<Message[]>([]);
   const [isLoading, setIsLoading] = useState(false);
   const [isSwitchLoading, setIsSwitchLoading] = useState(false);
   const { toast } = useToast();
   const { data: session } = useSession();
   const [profileUrl, setProfileUrl] = useState<string>("");
+  const [filter, setFilter] = useState<FilterOptions>("all");
 
   const form = useForm({
     resolver: zodResolver(acceptMessageSchema),
@@ -62,7 +67,9 @@ function UserDashboard() {
       setIsSwitchLoading(true);
       try {
         const response = await axios.get<ApiResponse>("/api/get-messages");
-        setMessages(response.data.messages || []);
+        const fetchedMessages = response.data.messages || [];
+        setMessages(fetchedMessages);
+        setFilteredMessages(fetchedMessages);
         if (refresh) {
           toast({
             title: "Refreshed Messages",
@@ -113,6 +120,17 @@ function UserDashboard() {
           axiosError.response?.data.message ?? "Failed to update message settings",
         variant: "destructive",
       });
+    }
+  };
+
+  const handleFilterChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
+    const selectedFilter = e.target.value as FilterOptions;
+    setFilter(selectedFilter);
+
+    if (selectedFilter === "all") {
+      setFilteredMessages(messages);
+    } else {
+      setFilteredMessages(messages.filter((message) => message.purpose === selectedFilter));
     }
   };
 
@@ -186,11 +204,25 @@ function UserDashboard() {
         Refresh Messages
       </Button>
 
+      {/* Filter Dropdown */}
+      <div className="mt-6">
+        <select
+          value={filter}
+          onChange={handleFilterChange}
+          className="bg-gray-800 text-white rounded-md p-2"
+        >
+          <option value="all">All</option>
+          <option value="feedback">Feedback</option>
+          <option value="suggestion">Suggestion</option>
+          <option value="appreciation">Appreciation</option>
+        </select>
+      </div>
+
       <div className="mt-8 text-center">
         <h2 className="text-xl font-bold">Total Messages Received:</h2>
         <CountUp
           from={0}
-          to={messages.length}
+          to={filteredMessages.length}
           separator=","
           direction="up"
           duration={1}
@@ -199,8 +231,8 @@ function UserDashboard() {
       </div>
 
       <div className="mt-6 grid grid-cols-1 md:grid-cols-2 gap-6">
-        {messages.length > 0 ? (
-          messages.map((message) => (
+        {filteredMessages.length > 0 ? (
+          filteredMessages.map((message) => (
             <MessageCard
               key={message._id as Key}
               message={message}

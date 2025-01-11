@@ -1,7 +1,10 @@
 import mongoose, { Schema, Document } from "mongoose";
+
+// Updated Message interface and schema to include purpose
 export interface Message extends Document {
   content: string;
   createdAt: Date;
+  purpose: "feedback" | "suggestion" | "appreciation" | "complaint"; // Add the purpose field
 }
 
 const MessageSchema: Schema<Message> = new Schema({
@@ -14,8 +17,15 @@ const MessageSchema: Schema<Message> = new Schema({
     required: true,
     default: Date.now,
   },
+  purpose: {
+    type: String,
+    enum: ["feedback", "suggestion", "appreciation", "complaint"], // Enum for possible values
+    required: true,
+    default: "feedback", // Default value
+  },
 });
 
+// Updated User interface and schema to handle the updated messages array
 export interface User extends Document {
   username: string;
   email: string;
@@ -25,7 +35,7 @@ export interface User extends Document {
   isVerified: boolean;
   createdAt: Date;
   isAcceptingMessages: boolean;
-  messages: Message[];
+  messages: Message[]; // This will now store messages with the purpose field
 }
 
 const userSchema: Schema<User> = new Schema({
@@ -57,11 +67,11 @@ const userSchema: Schema<User> = new Schema({
     type: Boolean,
     default: false,
   },
-  isAcceptingMessages:{
+  isAcceptingMessages: {
     type: Boolean,
     default: false,
   },
-  messages: [MessageSchema],
+  messages: [MessageSchema], // Referencing the MessageSchema
 });
 
 const UserModel =

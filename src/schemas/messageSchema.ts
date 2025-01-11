@@ -5,4 +5,5 @@ export const messageSchema = z.object({
     .string()
     .min(10, { message: "Content must be at least 10 characters" })
     .max(300, { message: "Content must not be longer than 300 characters" }),
+  purpose: z.enum(["feedback", "suggestion", "appreciation", "complaint"]).optional().nullable(),
 });

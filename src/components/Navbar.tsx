@@ -23,7 +23,7 @@ export default function Navbar() {
   };
 
   return (
-    <nav className="p-4 md:p-6 shadow-lg sticky top-0 z-10 bg-white/5 dark:bg-gray-800 backdrop-blur-sm text-white">
+    <nav className="p-4 md:p-6  shadow-lg sticky top-0 z-10 bg-white/5 dark:bg-gray-800 backdrop-blur-lg text-white">
       <div className="container mx-auto flex  flex-row justify-between items-center ">
         {/* Logo */}
         <Link className="text-2xl " href="/">

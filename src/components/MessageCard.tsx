@@ -60,7 +60,7 @@ export default function MessageCard({
 
   return (
     <div className="rounded-lg shadow-md bg-gray dark:bg-gray-800">
-      <Card className="bg-gray-200 dark:from-gray-800 dark:to-gray-900 shadow-inner">
+      <Card className="bg-gray-300 dark:from-gray-800 dark:to-gray-900 shadow-inner">
         <CardHeader className="p-4 border-b dark:border-gray-700">
           <div className="flex justify-between items-center">
             <CardTitle className="text-lg font-semibold text-gray-900 dark:text-gray-100">
@@ -104,7 +104,23 @@ export default function MessageCard({
           </CardDescription>
         </CardHeader>
         <CardContent className="p-4">
-          {/* Add additional content or actions if needed */}
+          {/* Display the type of message (Purpose) */}
+          <div className="text-sm text-gray-500 dark:text-gray-400 mt-2">
+            <strong>Message Type:</strong>{" "}
+            <span
+              className={` font-bold ${
+                message.purpose === "feedback"
+                  ? "text-blue-500  "
+                  : message.purpose === "suggestion"
+                  ? "text-green-500"
+                  : message.purpose === "appreciation"
+                  ? "text-yellow-500"
+                  : "text-red-500"
+              }`}
+            >
+              {message.purpose.charAt(0).toUpperCase() + message.purpose.slice(1)}
+            </span>
+          </div>
         </CardContent>
       </Card>
     </div>
