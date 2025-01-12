@@ -23,10 +23,15 @@ const config: Config = {
           "50%": { backgroundPosition: "100% 50%" },
           "100%": { backgroundPosition: "0% 50%" },
         },
+        fadeIn: {
+          "0%": { opacity: "0" },
+          "100%": { opacity: "1" },
+        },
       },
       animation: {
         shine: "shine 5s linear infinite",
         gradient: "gradient 8s linear infinite",
+        fadeIn: "fadeIn 1s ease-out forwards", // Add the fade-in animation here
       },
       colors: {
         background: "hsl(var(--background))",
