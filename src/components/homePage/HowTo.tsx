@@ -33,7 +33,7 @@ export default function HowTo() {
     >
       <div className="px-4 mx-auto max-w-7xl sm:px-6 lg:px-8">
         <div className="max-w-2xl mx-auto text-center">
-          <h2 className="text-3xl font-bold leading-tight text-white sm:text-4xl lg:text-5xl">
+          <h2 className="text-3xl font-bold leading-tightsm:text-4xl lg:text-5xl bg-btn-gradient text-transparent bg-clip-text">
             How does it work?
           </h2>
           <p className="max-w-lg mx-auto mt-4 text-base leading-relaxed text-gray-300">
