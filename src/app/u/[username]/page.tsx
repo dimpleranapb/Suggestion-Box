@@ -99,10 +99,6 @@ export default function ProfileForm() {
             <li>
               Suggestions for <strong>training and development</strong>.
             </li>
-            <li>
-              Anything you’re{" "}
-              <strong>uncomfortable discussing in person</strong>.
-            </li>
           </ul>
         </div>
 

@@ -10,6 +10,7 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import axios, { AxiosError } from "axios";
 import { Loader2, RefreshCcw } from "lucide-react";
 import ClimbingBoxLoader from "react-spinners/ClimbingBoxLoader";
+import HashLoader from "react-spinners/HashLoader";
 import { useSession } from "next-auth/react";
 import React, { Key, useCallback, useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
@@ -142,24 +143,25 @@ function UserDashboard() {
     });
   };
 
-  if (isLoading || !session || !session.user) {
+ 
+
+  if (!session || !session.user) {
     return (
       <div className="flex justify-center items-center h-screen bg-gradient-to-bottom">
-        <ClimbingBoxLoader color="#fff" size={30} />
+        <ClimbingBoxLoader color="#6993ff" size={30} />
       </div>
     );
   }
-
   return (
     <div className="h-full w-full bg-transparent p-8 sm:px-28 text-white">
-      <h1 className="text-4xl font-extrabold mb-4 text-center">User Dashboard</h1>
+      <h1 className="text-4xl md:text-6xl font-extrabold mb-4 text-center bg-btn-gradient bg-clip-text text-transparent">User Dashboard</h1>
 
       <BlurText
         text={`Welcome  ${session.user.username}!`}
         delay={150}
         animateBy="words"
         direction="top"
-        className="text-center text-lg font-semibold flex justify-center mb-6"
+        className="text-center text-2xl font-semibold flex justify-center mb-6"
       />
 
       <div className="bg-gray-900 bg-opacity-50 p-6 rounded-lg mb-6">
@@ -171,7 +173,7 @@ function UserDashboard() {
             disabled
             className="bg-gray-800 text-white rounded-lg p-2 flex-grow mr-2 focus:ring focus:ring-purple-500"
           />
-          <Button onClick={copyToClipboard} className="bg-btn-gradient">
+          <Button onClick={copyToClipboard} className="bg-btn-gradient  hover:transform hover:scale-105 transition-transform hover:bg-opacity-90">
             Copy
           </Button>
         </div>
@@ -183,7 +185,7 @@ function UserDashboard() {
           checked={acceptMessages}
           onCheckedChange={handleSwitchChange}
           disabled={isSwitchLoading}
-          className="bg-black"
+          className=" data-[state=checked]:bg-green-800 data-[state=unchecked]:bg-red-800   hover:transform hover:scale-105 transition-transform"
         />
         <span className="ml-3 text-sm font-medium">
           Accept Messages: {acceptMessages ? "On" : "Off"}
@@ -193,7 +195,7 @@ function UserDashboard() {
       <Separator className="my-6" />
 
       <Button
-        className="bg-btn-gradient flex items-center justify-center mx-auto"
+        className="bg-btn-gradient flex items-center justify-center mx-auto  hover:transform hover:scale-105 transition-transform hover:bg-opacity-90"
         onClick={() => fetchMessages(true)}
       >
         {isLoading ? (
@@ -205,11 +207,11 @@ function UserDashboard() {
       </Button>
 
       {/* Filter Dropdown */}
-      <div className="mt-6">
+      <div className="mt-6 ">
         <select
           value={filter}
           onChange={handleFilterChange}
-          className="bg-gray-800 text-white rounded-md p-2"
+          className="bg-gray-800 text-white rounded-md p-2  hover:transform hover:scale-105 transition-transform"
         >
           <option value="all">All</option>
           <option value="feedback">Feedback</option>
@@ -229,7 +231,12 @@ function UserDashboard() {
           className="text-3xl font-extrabold"
         />
       </div>
-
+      {isLoading || !session || !session.user ? (
+    
+      <div className="flex justify-center items-center h-screen bg-transparent">
+        <HashLoader  color="#6993ff" size={50} />
+        </div>
+    ) : (
       <div className="mt-6 grid grid-cols-1 md:grid-cols-2 gap-6">
         {filteredMessages.length > 0 ? (
           filteredMessages.map((message) => (
@@ -243,6 +250,7 @@ function UserDashboard() {
           <p>No messages to display.</p>
         )}
       </div>
+    )}
     </div>
   );
 }

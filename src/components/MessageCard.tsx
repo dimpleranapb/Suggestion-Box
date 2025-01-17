@@ -5,7 +5,6 @@ import {
   Card,
   CardContent,
   CardDescription,
-  CardFooter,
   CardHeader,
   CardTitle,
 } from "@/components/ui/card";
@@ -40,8 +39,8 @@ export default function MessageCard({
 
   const handleDeleteConfirm = async () => {
     try {
-      const response = await axios.delete<ApiResponse>('/api/delete-message', {
-        data: { messageId : message._id },
+      const response = await axios.delete<ApiResponse>("/api/delete-message", {
+        data: { messageId: message._id },
       });
       toast({
         title: "Message Deleted",
@@ -59,17 +58,17 @@ export default function MessageCard({
   };
 
   return (
-    <div className="rounded-lg shadow-md bg-gray dark:bg-gray-800">
-      <Card className="bg-gray-300 dark:from-gray-800 dark:to-gray-900 shadow-inner">
-        <CardHeader className="p-4 border-b dark:border-gray-700">
+    <div className="rounded-lg shadow-md hover:transform hover:scale-105 transition-transform">
+      <Card className=" shadow-inner bg-gradient-to-r from-[#21284d] to-[#202542]">
+        <CardHeader className="p-4 border-b border-black">
           <div className="flex justify-between items-center">
-            <CardTitle className="text-lg font-semibold text-gray-900 dark:text-gray-100">
+            <CardTitle className="text-lg font-semibold text-gray-300">
               {message.content}
             </CardTitle>
             <AlertDialog>
               <AlertDialogTrigger asChild>
                 <Button
-                  className="p-2 rounded-md text-red-600 hover:bg-red-50 dark:hover:bg-red-900"
+                  className="p-2 rounded-md text-red-600 hover:bg-red-700"
                   variant="ghost"
                 >
                   <X className="w-5 h-5" />
@@ -77,16 +76,16 @@ export default function MessageCard({
               </AlertDialogTrigger>
               <AlertDialogContent>
                 <AlertDialogHeader>
-                  <AlertDialogTitle className="text-lg font-bold">
+                  <AlertDialogTitle className="text-lg font-bold text-gray-900">
                     Are you absolutely sure?
                   </AlertDialogTitle>
-                  <AlertDialogDescription className="text-sm text-gray-600 dark:text-gray-400">
+                  <AlertDialogDescription className="text-sm text-gray-900">
                     This action cannot be undone. This will permanently delete
                     the message from your account.
                   </AlertDialogDescription>
                 </AlertDialogHeader>
                 <AlertDialogFooter className="flex justify-end space-x-4">
-                  <AlertDialogCancel className="text-gray-600 dark:text-gray-300">
+                  <AlertDialogCancel className="text-gray-300">
                     Cancel
                   </AlertDialogCancel>
                   <AlertDialogAction
@@ -99,26 +98,26 @@ export default function MessageCard({
               </AlertDialogContent>
             </AlertDialog>
           </div>
-          <CardDescription className="text-sm text-gray-500 dark:text-gray-400 mt-2">
+          <CardDescription className="text-sm text-gray-400 mt-2">
             Sent on: {new Date(message.createdAt).toLocaleString()}
           </CardDescription>
         </CardHeader>
         <CardContent className="p-4">
-          {/* Display the type of message (Purpose) */}
-          <div className="text-sm text-gray-500 dark:text-gray-400 mt-2">
+          <div className="text-sm text-gray-400">
             <strong>Message Type:</strong>{" "}
             <span
-              className={` font-bold ${
+              className={`font-bold ${
                 message.purpose === "feedback"
-                  ? "text-blue-500  "
+                  ? "text-blue-400"
                   : message.purpose === "suggestion"
-                  ? "text-green-500"
+                  ? "text-green-400"
                   : message.purpose === "appreciation"
-                  ? "text-yellow-500"
-                  : "text-red-500"
+                  ? "text-yellow-400"
+                  : "text-red-400"
               }`}
             >
-              {message.purpose.charAt(0).toUpperCase() + message.purpose.slice(1)}
+              {message.purpose.charAt(0).toUpperCase() +
+                message.purpose.slice(1)}
             </span>
           </div>
         </CardContent>

@@ -8,7 +8,7 @@ import { Button } from "./ui/button";
 import GradientText from "./GradientText";
 
 export default function Navbar() {
-  const { data: session } = useSession();
+  const { data: session, status } = useSession();
   const [loading, setLoading] = useState(false);
 
   const user: User = session?.user as User;
@@ -18,20 +18,30 @@ export default function Navbar() {
     try {
       await signOut();
     } finally {
-      setLoading(false); // Ensure loading is reset even if signOut fails
+      setLoading(false);
     }
   };
 
+  if (status === "loading") {
+    return (
+      <nav className="p-4 md:p-6 border-b border-gray-800 shadow-lg sticky top-0 z-10 bg-white/5 backdrop-blur-md text-white">
+        <div className="container mx-auto flex justify-between items-center">
+          <GradientText colors={["#40ffaa", "#4079ff", "#40ffaa", "#4079ff", "#40ffaa"]} animationSpeed={3}>
+            <p className="font-bold text-xl sm:text-3xl">SUGGESTION BOX</p>
+          </GradientText>
+          <div className="text-sm text-gray-600 dark:text-gray-300">Loading...</div>
+        </div>
+      </nav>
+    );
+  }
+
   return (
-    <nav className="p-4 md:p-6  shadow-lg sticky top-0 z-10 bg-white/5 dark:bg-gray-800 backdrop-blur-sm text-white">
-      <div className="container mx-auto flex  flex-row justify-between items-center ">
+    <nav className="p-4 md:p-6 border-b border-gray-800 shadow-lg sticky top-0 z-10 bg-white/5 backdrop-blur-md text-white">
+      <div className="container mx-auto flex justify-between items-center">
         {/* Logo */}
-        <Link className="text-2xl " href="/">
-          <GradientText
-            colors={["#40ffaa", "#4079ff", "#40ffaa", "#4079ff", "#40ffaa"]}
-            animationSpeed={3}
-          >
-           <p className="font-bold text-xl sm:text-3xl">SUGGESTION BOX</p> 
+        <Link className="text-2xl" href="/">
+          <GradientText colors={["#40ffaa", "#4079ff", "#40ffaa", "#4079ff", "#40ffaa"]} animationSpeed={3}>
+            <p className="font-bold text-xl sm:text-3xl">SUGGESTION BOX</p>
           </GradientText>
         </Link>
 
