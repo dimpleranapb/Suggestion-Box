@@ -25,11 +25,18 @@ export default function Navbar() {
   if (status === "loading") {
     return (
       <nav className="p-4 md:p-6 border-b border-gray-800 shadow-lg sticky top-0 z-10 bg-white/5 backdrop-blur-md text-white">
-        <div className="container mx-auto flex justify-between items-center">
-          <GradientText colors={["#40ffaa", "#4079ff", "#40ffaa", "#4079ff", "#40ffaa"]} animationSpeed={3}>
-            <p className="font-bold text-xl sm:text-3xl">SUGGESTION BOX</p>
-          </GradientText>
-          <div className="text-sm text-gray-600 dark:text-gray-300">Loading...</div>
+        <div className="container mx-auto flex justify-between  items-center">
+          <Link className="text-2xl" href="/">
+            <GradientText
+              colors={["#40ffaa", "#4079ff", "#40ffaa", "#4079ff", "#40ffaa"]}
+              animationSpeed={3}
+            >
+              <p className="font-bold text-xl sm:text-3xl">SUGGESTION BOX</p>
+            </GradientText>
+          </Link>
+          <div className="text-sm text-gray-600 dark:text-gray-300 ">
+            Loading...
+          </div>
         </div>
       </nav>
     );
@@ -40,7 +47,10 @@ export default function Navbar() {
       <div className="container mx-auto flex justify-between items-center">
         {/* Logo */}
         <Link className="text-2xl" href="/">
-          <GradientText colors={["#40ffaa", "#4079ff", "#40ffaa", "#4079ff", "#40ffaa"]} animationSpeed={3}>
+          <GradientText
+            colors={["#40ffaa", "#4079ff", "#40ffaa", "#4079ff", "#40ffaa"]}
+            animationSpeed={3}
+          >
             <p className="font-bold text-xl sm:text-3xl">SUGGESTION BOX</p>
           </GradientText>
         </Link>
