@@ -39,10 +39,12 @@ function UserDashboard() {
   const acceptMessages = watch("acceptMessages");
 
   const handleDeleteMessage = async (messageId: string) => {
-    setMessages((prevMessages) =>
-      prevMessages.filter((message) => message._id !== messageId)
-    );
+    // Remove the message locally
+    const updatedMessages = messages.filter((message) => message._id !== messageId);
+    setMessages(updatedMessages);
+    setFilteredMessages(updatedMessages);
   };
+  
 
   const fetchAcceptMessages = useCallback(async () => {
     setIsSwitchLoading(true);
