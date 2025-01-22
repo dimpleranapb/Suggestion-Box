@@ -85,12 +85,6 @@ export default function ProfileForm() {
           </p>
           <ul className="list-disc list-inside text-left">
             <li>
-              Issues with the <strong>working environment</strong>.
-            </li>
-            <li>
-              Concerns about <strong>colleagues, teammates, or leaders</strong>.
-            </li>
-            <li>
               Feedback on <strong>management, policies, or decisions</strong>.
             </li>
             <li>
@@ -98,6 +92,9 @@ export default function ProfileForm() {
             </li>
             <li>
               Suggestions for <strong>training and development</strong>.
+            </li>
+            <li>
+              Or any other.
             </li>
           </ul>
         </div>
