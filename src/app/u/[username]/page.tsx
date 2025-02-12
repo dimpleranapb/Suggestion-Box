@@ -71,7 +71,7 @@ export default function ProfileForm() {
       hoverFillColor="#222"
     >
       {/* Description and Form */}
-      <div className="  w-full h-full py-3 flex flex-col justify-center items-center bg-black/80 px-4">
+      <div className="  w-full h-full py-3 flex flex-col justify-center items-center px-4">
         {/* Description */}
         <div className="max-w-2xl sm:mt-10 text-white text-center mb-8">
           <h1 className="text-4xl font-extrabold mb-4 bg-gradient-to-r from-blue-500 via-purple-500 to-pink-500 text-transparent bg-clip-text">
