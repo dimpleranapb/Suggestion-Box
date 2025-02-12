@@ -39,7 +39,7 @@ export default function ProfileForm() {
       const response = await axios.post("/api/send-message", {
         username,
         content: data.content,
-        purpose: data.purpose, 
+        purpose: data.purpose,
       });
 
       toast({
@@ -93,9 +93,7 @@ export default function ProfileForm() {
             <li>
               Suggestions for <strong>training and development</strong>.
             </li>
-            <li>
-              Or any other.
-            </li>
+            <li>Or any other.</li>
           </ul>
         </div>
 
@@ -169,8 +167,8 @@ export default function ProfileForm() {
           </Form>
           <p className="mt-4 text-white text-center">
             Feel free to share openly—whether it’s{" "}
-            <b>appreciating a teammate</b> or <b>highlighting an issue</b>{" "}
-            that needs attention.
+            <b>appreciating a teammate</b> or <b>highlighting an issue</b> that
+            needs attention.
           </p>
         </div>
       </div>
