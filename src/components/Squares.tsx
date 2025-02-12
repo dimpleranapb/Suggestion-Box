@@ -141,7 +141,7 @@ const Squares: React.FC<SquaresProps> = ({
   }, [direction, speed, borderColor, hoverFillColor, hoveredSquare, squareSize]);
 
   return (
-    <div className="relative w-full min-h-screen">
+    <div className="relative w-full min-h-screen  bg-black/75">
       <div className="absolute inset-0 -z-10 w-full h-full">
         <canvas ref={canvasRef} className="w-full h-full border-none block"></canvas>
       </div>

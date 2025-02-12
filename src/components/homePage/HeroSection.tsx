@@ -18,7 +18,7 @@ export default function HeroSection() {
   
   >
     {/* Main Content */}
-    <main className="relative flex-grow flex flex-col items-center justify-center px-4 md:px-24 py-12 bg-black/75 ">
+    <main className="relative flex-grow flex flex-col items-center justify-center px-4 md:px-24 py-12 ">
       {/* Hero Section */}
       <section className="text-center mb-12 p-6 sm:p-0">
         <h1 className="text-4xl sm:text-5xl md:text-6xl font-extrabold leading-tight mb-6 bg-gradient-to-r from-blue-500 to-purple-500 bg-clip-text text-transparent">
